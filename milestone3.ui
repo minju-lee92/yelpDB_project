@@ -1,0 +1,722 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1274</width>
+    <height>865</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Divide &amp; Conquer - MS3</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="businessTab">
+       <attribute name="title">
+        <string>Businesses</string>
+       </attribute>
+       <widget class="QGroupBox" name="businessGroup">
+        <property name="geometry">
+         <rect>
+          <x>9</x>
+          <y>230</y>
+          <width>1231</width>
+          <height>561</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(224, 234, 255);
+font: 10pt &quot;Arial&quot;;
+</string>
+        </property>
+        <property name="title">
+         <string>Filter on Categories</string>
+        </property>
+        <widget class="QTableWidget" name="businessTable">
+         <property name="geometry">
+          <rect>
+           <x>300</x>
+           <y>50</y>
+           <width>921</width>
+           <height>191</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(255, 255, 255);</string>
+         </property>
+         <attribute name="verticalHeaderVisible">
+          <bool>false</bool>
+         </attribute>
+        </widget>
+        <widget class="QLabel" name="label_5">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>20</y>
+           <width>121</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Select Category</string>
+         </property>
+        </widget>
+        <widget class="QListWidget" name="categoryList">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>50</y>
+           <width>221</width>
+           <height>191</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(255, 255, 255);</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_4">
+         <property name="geometry">
+          <rect>
+           <x>300</x>
+           <y>30</y>
+           <width>81</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Businesses</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="refreshButton">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>280</y>
+           <width>51</width>
+           <height>51</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(255, 255, 255);</string>
+         </property>
+         <property name="text">
+          <string>Refresh</string>
+         </property>
+        </widget>
+        <widget class="QGroupBox" name="popularBusinessesGroup">
+         <property name="geometry">
+          <rect>
+           <x>70</x>
+           <y>250</y>
+           <width>1151</width>
+           <height>301</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="title">
+          <string>Popular Businesses (In Zipcode for Selected Category)</string>
+         </property>
+         <widget class="QTableWidget" name="popularBusinessesTable">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>21</y>
+            <width>1131</width>
+            <height>271</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(255, 255, 255);
+font: 10pt &quot;MS Shell Dlg 2&quot;;</string>
+          </property>
+         </widget>
+        </widget>
+        <widget class="QPushButton" name="searchButton">
+         <property name="geometry">
+          <rect>
+           <x>240</x>
+           <y>80</y>
+           <width>51</width>
+           <height>51</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(255, 255, 255);</string>
+         </property>
+         <property name="text">
+          <string>Search</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="clearButton">
+         <property name="geometry">
+          <rect>
+           <x>240</x>
+           <y>160</y>
+           <width>51</width>
+           <height>51</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(255, 255, 255);</string>
+         </property>
+         <property name="text">
+          <string>Clear</string>
+         </property>
+        </widget>
+       </widget>
+       <widget class="QGroupBox" name="businessLocation">
+        <property name="geometry">
+         <rect>
+          <x>9</x>
+          <y>10</y>
+          <width>491</width>
+          <height>221</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(224, 234, 255);
+font: 10pt &quot;MS Shell Dlg 2&quot;;
+</string>
+        </property>
+        <property name="title">
+         <string>Select Location</string>
+        </property>
+        <widget class="QComboBox" name="stateList">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>40</y>
+           <width>121</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(255, 255, 255);</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>20</y>
+           <width>71</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">font: 10pt &quot;Arial&quot;;</string>
+         </property>
+         <property name="text">
+          <string>State</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_2">
+         <property name="geometry">
+          <rect>
+           <x>140</x>
+           <y>20</y>
+           <width>81</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">font: 10pt &quot;Arial&quot;;</string>
+         </property>
+         <property name="text">
+          <string>City</string>
+         </property>
+        </widget>
+        <widget class="QListWidget" name="cityList">
+         <property name="geometry">
+          <rect>
+           <x>140</x>
+           <y>40</y>
+           <width>181</width>
+           <height>171</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(255, 255, 255);</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_3">
+         <property name="geometry">
+          <rect>
+           <x>330</x>
+           <y>20</y>
+           <width>81</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">font: 10pt &quot;Arial&quot;;</string>
+         </property>
+         <property name="text">
+          <string>Zipcode</string>
+         </property>
+        </widget>
+        <widget class="QListWidget" name="zipList">
+         <property name="geometry">
+          <rect>
+           <x>330</x>
+           <y>40</y>
+           <width>151</width>
+           <height>171</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(255, 255, 255);</string>
+         </property>
+        </widget>
+       </widget>
+       <widget class="QGroupBox" name="businessLocation_2">
+        <property name="geometry">
+         <rect>
+          <x>500</x>
+          <y>10</y>
+          <width>741</width>
+          <height>221</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(224, 234, 255);
+font: 10pt &quot;Arial&quot;;</string>
+        </property>
+        <property name="title">
+         <string>Zipcode Statistics</string>
+        </property>
+        <widget class="QLabel" name="label_6">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>20</y>
+           <width>101</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">font: 10pt &quot;Arial&quot;;</string>
+         </property>
+         <property name="text">
+          <string># of Businesses</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_8">
+         <property name="geometry">
+          <rect>
+           <x>130</x>
+           <y>20</y>
+           <width>101</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">font: 10pt &quot;Arial&quot;;</string>
+         </property>
+         <property name="text">
+          <string>Top Categories</string>
+         </property>
+        </widget>
+        <widget class="QTableWidget" name="topCategory">
+         <property name="geometry">
+          <rect>
+           <x>130</x>
+           <y>40</y>
+           <width>601</width>
+           <height>171</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(255, 255, 255);
+font: 10pt &quot;MS Shell Dlg 2&quot;;
+</string>
+         </property>
+         <attribute name="verticalHeaderVisible">
+          <bool>false</bool>
+         </attribute>
+        </widget>
+        <widget class="QListWidget" name="numBusinesses">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>40</y>
+           <width>111</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(255, 255, 255);</string>
+         </property>
+        </widget>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="usersTab">
+       <attribute name="title">
+        <string>Users</string>
+       </attribute>
+       <widget class="QGroupBox" name="loginGroup">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>10</y>
+          <width>191</width>
+          <height>201</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(224, 234, 255);
+font: 10pt &quot;MS Shell Dlg 2&quot;;</string>
+        </property>
+        <property name="title">
+         <string>Login</string>
+        </property>
+        <widget class="QListWidget" name="loginUserIDs">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>60</y>
+           <width>171</width>
+           <height>131</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(255, 255, 255);</string>
+         </property>
+        </widget>
+        <widget class="QTextEdit" name="loginUserName">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>20</y>
+           <width>171</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(255, 255, 255);</string>
+         </property>
+        </widget>
+       </widget>
+       <widget class="QGroupBox" name="infoGroup">
+        <property name="geometry">
+         <rect>
+          <x>200</x>
+          <y>10</y>
+          <width>371</width>
+          <height>201</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(224, 234, 255);
+font: 10pt &quot;MS Shell Dlg 2&quot;;</string>
+        </property>
+        <property name="title">
+         <string>Information</string>
+        </property>
+        <widget class="QListWidget" name="infoFunny">
+         <property name="geometry">
+          <rect>
+           <x>70</x>
+           <y>170</y>
+           <width>91</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(255, 255, 255);</string>
+         </property>
+        </widget>
+        <widget class="QListWidget" name="infoCool">
+         <property name="geometry">
+          <rect>
+           <x>170</x>
+           <y>170</y>
+           <width>91</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(255, 255, 255);</string>
+         </property>
+        </widget>
+        <widget class="QListWidget" name="infoUseful">
+         <property name="geometry">
+          <rect>
+           <x>270</x>
+           <y>170</y>
+           <width>91</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(255, 255, 255);</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_15">
+         <property name="geometry">
+          <rect>
+           <x>70</x>
+           <y>150</y>
+           <width>47</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Funny</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_16">
+         <property name="geometry">
+          <rect>
+           <x>170</x>
+           <y>150</y>
+           <width>47</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Cool</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_17">
+         <property name="geometry">
+          <rect>
+           <x>270</x>
+           <y>150</y>
+           <width>47</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Useful</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_18">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>150</y>
+           <width>47</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Votes:</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_19">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>30</y>
+           <width>41</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Name</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_20">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>60</y>
+           <width>41</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Stars</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_21">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>120</y>
+           <width>81</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Yelping Since</string>
+         </property>
+        </widget>
+        <widget class="QListWidget" name="infoName">
+         <property name="geometry">
+          <rect>
+           <x>60</x>
+           <y>30</y>
+           <width>301</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(255, 255, 255);</string>
+         </property>
+        </widget>
+        <widget class="QListWidget" name="infoStars">
+         <property name="geometry">
+          <rect>
+           <x>60</x>
+           <y>60</y>
+           <width>301</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(255, 255, 255);</string>
+         </property>
+        </widget>
+        <widget class="QListWidget" name="infoYelpingSince">
+         <property name="geometry">
+          <rect>
+           <x>100</x>
+           <y>120</y>
+           <width>261</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(255, 255, 255);</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_22">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>90</y>
+           <width>81</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Fans</string>
+         </property>
+        </widget>
+        <widget class="QListWidget" name="infoFans">
+         <property name="geometry">
+          <rect>
+           <x>60</x>
+           <y>90</y>
+           <width>301</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(255, 255, 255);</string>
+         </property>
+        </widget>
+       </widget>
+       <widget class="QGroupBox" name="latestTipsOfMyFriendsGroup">
+        <property name="geometry">
+         <rect>
+          <x>570</x>
+          <y>10</y>
+          <width>671</width>
+          <height>781</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(224, 234, 255);
+font: 10pt &quot;MS Shell Dlg 2&quot;;</string>
+        </property>
+        <property name="title">
+         <string>Latest Tips of My Friends</string>
+        </property>
+        <widget class="QTableWidget" name="latestTipsOfMyFriendsTable">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>20</y>
+           <width>651</width>
+           <height>751</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(255, 255, 255);</string>
+         </property>
+        </widget>
+       </widget>
+       <widget class="QGroupBox" name="myFriendsGroup">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>210</y>
+          <width>561</width>
+          <height>301</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(224, 234, 255);
+font: 10pt &quot;MS Shell Dlg 2&quot;;</string>
+        </property>
+        <property name="title">
+         <string>My Friends</string>
+        </property>
+        <widget class="QTableWidget" name="myFriendsTable">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>20</y>
+           <width>541</width>
+           <height>271</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(255, 255, 255);</string>
+         </property>
+        </widget>
+       </widget>
+       <widget class="QGroupBox" name="friendSuggestionsGroup">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>510</y>
+          <width>561</width>
+          <height>281</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(224, 234, 255);
+font: 10pt &quot;MS Shell Dlg 2&quot;;</string>
+        </property>
+        <property name="title">
+         <string>Friend Suggestions</string>
+        </property>
+        <widget class="QTableWidget" name="friendSuggestionsTable">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>20</y>
+           <width>541</width>
+           <height>251</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(255, 255, 255);</string>
+         </property>
+        </widget>
+       </widget>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

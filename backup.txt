@@ -1,0 +1,572 @@
+"""
+
+    Divide & Conquer
+    WSU CPTS 451
+    Spring 2020
+    Milestone 1
+
+"""
+
+
+import sys
+from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget, QAction, QTableWidget,QTableWidgetItem,QVBoxLayout
+from PyQt5 import uic, QtCore
+from PyQt5.QtGui import QIcon, QPixmap
+import psycopg2
+
+qtCreatorFile = "milestone1.ui"
+
+Ui_MainWindow, QtBaseClass = uic.loadUiType(qtCreatorFile)
+
+
+class Milestone1(QMainWindow):
+    def __init__(self):
+        super(Milestone1, self).__init__()
+        self.ui = Ui_MainWindow()
+        self.ui.setupUi(self)
+        self.load_state_list()
+        self.ui.state_list.currentTextChanged.connect(self.state_changed)
+        self.ui.city_list.itemSelectionChanged.connect(self.city_changed)
+        self.ui.b_name.textChanged.connect(self.get_business_names)
+        self.ui.businesses.itemSelectionChanged.connect(self.display_business_city)
+
+    def execute_query(self, query):
+        try:
+            connection = psycopg2.connect("dbname='milestone1db' user='postgres' host='localhost' password='Opiter1estDeus'")
+
+        except:
+            print("Unable to connect to the database.")
+
+        cur = connection.cursor()
+        cur.execute(query)
+        connection.commit()
+        result = cur.fetchall()
+        connection.close()
+        return result
+
+    def load_state_list(self):
+        self.ui.state_list.clear()
+        sql_command = "SELECT distinct state FROM business ORDER BY state;"
+
+        try:
+            results = self.execute_query(sql_command)
+
+            for row in results:
+                self.ui.state_list.addItem(row[0])
+
+        except:
+            print("Query failed.")
+
+        self.ui.state_list.setCurrentIndex(-1)
+        self.ui.state_list.clearEditText()
+
+    def state_changed(self):
+        self.ui.city_list.clear()
+        state = self.ui.state_list.currentText()
+        if self.ui.state_list.currentIndex() >= 0:
+            sql_command = "SELECT distinct city FROM business WHERE state = '" + state + "' ORDER BY city;"
+            print(sql_command)
+            try:
+                results = self.execute_query(sql_command)
+                for row in results:
+                    self.ui.city_list.addItem(row[0])
+            except:
+                print("Query failed1.")
+
+            for i in reversed(range(self.ui.business_table.rowCount())):
+                self.ui.business_table.removeRow(i)
+
+            sql_command = "SELECT name, city, state FROM business WHERE state = '" + state + "' ORDER BY name"
+            try:
+                results = self.execute_query(sql_command)
+                style = "::section {""background-color: #f3f3f3; }"
+                self.ui.business_table.horizontalHeader().setStyleSheet(style)
+                self.ui.business_table.setColumnCount(len(results[0]))  # number of columns in the row
+                self.ui.business_table.setRowCount(len(results))  # number of rows in the table
+                self.ui.business_table.setHorizontalHeaderLabels(["Business Name", "City", "State"])
+                self.ui.business_table.resizeColumnsToContents()
+                self.ui.business_table.setColumnWidth(0, 300)
+                self.ui.business_table.setColumnWidth(1, 100)
+                self.ui.business_table.setColumnWidth(2, 50)
+                current_row_count = 0
+                for row in results:
+                    for col_count in range(0, len(results[0])):
+                        self.ui.business_table.setItem(current_row_count, col_count, QTableWidgetItem(row[col_count]))
+                    current_row_count += 1
+
+            except:
+                print("Query failed2.")
+
+    def city_changed(self):
+        if self.ui.state_list.currentIndex() >= 0 and len(self.ui.city_list.selectedItems()) > 0:
+            state = self.ui.state_list.currentText()
+            city = self.ui.city_list.selectedItems()[0].text()
+            sql_command = "SELECT name, city, state FROM business WHERE state = '" + state + "' AND city = '" + city + "' ORDER BY name;"
+            results = self.execute_query(sql_command)
+            try:
+                results = self.execute_query(sql_command)
+                style = "::section {""background-color: #f3f3f3; }"
+                self.ui.business_table.horizontalHeader().setStyleSheet(style)
+                self.ui.business_table.setColumnCount(len(results[0]))  # number of columns in the row
+                self.ui.business_table.setRowCount(len(results))  # number of rows in the table
+                self.ui.business_table.setHorizontalHeaderLabels(["Business Name", "City", "State"])
+                self.ui.business_table.resizeColumnsToContents()
+                self.ui.business_table.setColumnWidth(0, 300)
+                self.ui.business_table.setColumnWidth(1, 100)
+                self.ui.business_table.setColumnWidth(2, 50)
+                current_row_count = 0
+                for row in results:
+                    for col_count in range(0, len(results[0])):
+                        self.ui.business_table.setItem(current_row_count, col_count, QTableWidgetItem(row[col_count]))
+                    current_row_count += 1
+
+            except:
+                print("Query failed2.")
+
+    def get_business_names(self):
+        self.ui.businesses.clear()
+        business_name = self.ui.b_name.text()
+        sql_command = "SELECT name FROM business WHERE name LIKE '%" + business_name + "%' ORDER BY name"
+
+        try:
+            results = self.execute_query(sql_command)
+            for row in results:
+                self.ui.businesses.addItem(row[0])
+
+        except:
+            print("Query failed3.")
+
+    def display_business_city(self):
+        business_name = self.ui.businesses.selectedItems()[0].text()
+        sql_command = "SELECT city FROM business WHERE name = '" + business_name + "';"
+
+        try:
+            results = self.execute_query(sql_command)
+            self.ui.b_city.setText(results[0][0])
+        except:
+            print("Query failed4.")
+
+
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    window = Milestone1()
+    window.show()
+    sys.exit(app.exec_())
+
+
+________________________________________________________________________________________________________________
+||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+________________________________________________________________________________________________________________
+
+"""
+
+    Divide & Conquer
+    WSU CPTS 451
+    Spring 2020
+    Milestone 1
+
+"""
+
+
+import sys
+from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget, QAction, QTableWidget,QTableWidgetItem,QVBoxLayout
+from PyQt5 import uic, QtCore
+from PyQt5.QtGui import QIcon, QPixmap
+import psycopg2
+
+qt_creator_file = "milestone1-v4.ui"
+
+Ui_MainWindow, QtBaseClass = uic.loadUiType(qt_creator_file)
+
+
+class Milestone1(QMainWindow):
+    def __init__(self):
+        super(Milestone1, self).__init__()
+        self.ui = Ui_MainWindow()
+        self.ui.setupUi(self)
+        self.load_state_list()
+        self.ui.state_list.currentTextChanged.connect(self.state_changed)
+        self.ui.city_list.itemSelectionChanged.connect(self.city_changed)
+        self.ui.b_name.textChanged.connect(self.get_business_names)
+        self.ui.businesses.itemSelectionChanged.connect(self.display_business_city)
+
+    def execute_query(self, query):
+        try:
+            connection = psycopg2.connect("dbname='milestone1db' user='postgres' host='localhost' password='cpts451'")
+        except:
+            print("Unable to connect to the database.")
+
+        cur = connection.cursor()
+        cur.execute(query)
+        connection.commit()
+        result = cur.fetchall()
+        connection.close()
+        return result
+
+    def load_state_list(self):
+        self.ui.state_list.clear()
+        sql_command = "SELECT distinct state FROM business ORDER BY state;"
+
+        try:
+            results = self.execute_query(sql_command)
+            for row in results:
+                self.ui.state_list.addItem(row[0])
+        except:
+            print("Query failed.")
+
+        self.ui.state_list.setCurrentIndex(-1)
+        self.ui.state_list.clearEditText()
+
+    def state_changed(self):
+        self.ui.city_list.clear()
+        state = self.ui.state_list.currentText()
+
+        if self.ui.state_list.currentIndex() >= 0:
+            sql_command = "SELECT distinct city FROM business WHERE state = '" + state + "' ORDER BY city;"
+            try:
+                results = self.execute_query(sql_command)
+                for row in results:
+                    self.ui.city_list.addItem(row[0])
+            except:
+                print("Query failed - state_changed().")
+
+            for i in reversed(range(self.ui.business_table.rowCount())):
+                self.ui.business_table.removeRow(i)
+
+            sql_command = "SELECT name, city, state FROM business WHERE state = '" + state + "' ORDER BY name"
+            try:
+                results = self.execute_query(sql_command)
+                style = "::section {""background-color: #f3f3f3; }"
+                self.ui.business_table.horizontalHeader().setStyleSheet(style)
+                self.ui.business_table.setColumnCount(len(results[0]))
+                self.ui.business_table.setRowCount(len(results))
+                self.ui.business_table.setHorizontalHeaderLabels(["Business Name", "City", "State"])
+                self.ui.business_table.resizeColumnsToContents()
+                self.ui.business_table.setColumnWidth(0, 300)
+                self.ui.business_table.setColumnWidth(1, 100)
+                self.ui.business_table.setColumnWidth(2, 50)
+                current_row_count = 0
+
+                for row in results:
+                    for col_count in range(0, len(results[0])):
+                        self.ui.business_table.setItem(current_row_count, col_count, QTableWidgetItem(row[col_count]))
+                    current_row_count += 1
+            except:
+                print("Query failed - state_changed().")
+
+    def city_changed(self):
+        if self.ui.state_list.currentIndex() >= 0 and len(self.ui.city_list.selectedItems()) > 0:
+            state = self.ui.state_list.currentText()
+            city = self.ui.city_list.selectedItems()[0].text()
+            sql_command = "SELECT name, city, state FROM business WHERE state = '" + state + "' AND city = '" + city + "' ORDER BY name;"
+            results = self.execute_query(sql_command)
+            try:
+                results = self.execute_query(sql_command)
+                style = "::section {""background-color: #f3f3f3; }"
+                self.ui.business_table.horizontalHeader().setStyleSheet(style)
+                self.ui.business_table.setColumnCount(len(results[0]))
+                self.ui.business_table.setRowCount(len(results))
+                self.ui.business_table.setHorizontalHeaderLabels(["Business Name", "City", "State"])
+                self.ui.business_table.resizeColumnsToContents()
+                self.ui.business_table.setColumnWidth(0, 300)
+                self.ui.business_table.setColumnWidth(1, 100)
+                self.ui.business_table.setColumnWidth(2, 50)
+                current_row_count = 0
+                for row in results:
+                    for col_count in range(0, len(results[0])):
+                        self.ui.business_table.setItem(current_row_count, col_count, QTableWidgetItem(row[col_count]))
+                    current_row_count += 1
+            except:
+                print("Query failed - city_changed().")
+
+    def get_business_names(self):
+        self.ui.businesses.clear()
+        business_name = self.ui.b_name.text()
+        sql_command = "SELECT name FROM business WHERE name LIKE '%" + business_name + "%' ORDER BY name"
+        try:
+            results = self.execute_query(sql_command)
+            for row in results:
+                self.ui.businesses.addItem(row[0])
+        except:
+            print("Query failed - get_business_names().")
+
+    def display_business_city(self):
+        business_name = self.ui.businesses.selectedItems()[0].text()
+        sql_command = "SELECT city FROM business WHERE name = '" + business_name + "';"
+        try:
+            results = self.execute_query(sql_command)
+            self.ui.b_city.setText(results[0][0])
+        except:
+            print("Query failed - display_business_city().")
+
+
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    window = Milestone1()
+    window.show()
+    sys.exit(app.exec_())
+
+
+________________________________________________________________________________________________________________
+||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+________________________________________________________________________________________________________________
+
+
+"""
+
+    Divide & Conquer
+    WSU CPTS 451
+    Spring 2020
+    Milestone 1-1
+
+"""
+
+import json
+
+
+def main():
+    """
+        Input:      a
+        Process:    a
+        Output:     a
+    """
+
+    parse_business()
+    parse_checkin()
+    parse_tip()
+    parse_user()
+
+
+def clean_str_sql(string):
+    """
+        Input:      a
+        Process:    a
+        Output:     a
+    """
+
+    return string.replace("'", "`").replace("\n", " ")  # not sure how this is used yet
+
+
+def parse_business():
+    """
+        Input:      a
+        Process:    a
+        Output:     a
+    """
+
+    # Specifying file names
+    json_file = "yelp_business.JSON"
+    output_file = "business.txt"
+
+    # Opening JSON file
+    with open(json_file, 'r') as f:
+        out_file = open(output_file, 'w')
+        line = f.readline()
+        line_count = 0
+
+        # Reading and extracting data from each JSON object
+        while line:
+            # Extracting data from the current JSON object
+            data = json.loads(line)
+            out_file.write(data["business_id"] + "\t")
+            out_file.write(data["name"] + "\t")
+            out_file.write(data["address"] + "\t")
+            out_file.write(data["city"] + "\t")
+            out_file.write(data["state"] + "\t")
+            out_file.write(data["postal_code"] + "\t")
+            out_file.write(str(data["latitude"]) + "\t")
+            out_file.write(str(data["longitude"]) + "\t")
+            out_file.write(str(data["stars"]) + "\t")
+            out_file.write(str(data["review_count"]) + "\t")
+            out_file.write(str(data["is_open"]) + "\t")
+            #out_file.write(str(data["attributes"]) + "\t")  # not sure how to process dict type
+            out_file.write(str(data["categories"].split(", ")) + "\t")
+            out_file.write('\n')
+
+            # Reading next line and incrementing line counter
+            line = f.readline()
+            line_count += 1
+
+    # Closing file
+    out_file.close()
+    f.close()
+
+    # Printing results
+    print("Processed: {}, Lines: {}, Output: {}".format(json_file, line_count, output_file))
+
+
+def parse_checkin():
+    # Specifying file names
+    json_file = "yelp_checkin.JSON"
+    output_file = "checkin.txt"
+
+    # Opening JSON file
+    with open(json_file, 'r') as f:
+        out_file = open(output_file, 'w')
+        line = f.readline()
+        line_count = 0
+
+        # Reading and extracting data from each JSON object
+        while line:
+            data = json.loads(line)
+            out_file.write(data["business_id"] + "\t")
+
+            date = data["date"]
+            print(date)
+
+            out_file.write(data["date"] + "\t")
+
+            date = data["date"]
+            print(date)
+
+            out_file.write('\n')
+
+            line = f.readline()
+            line_count += 1
+
+    # Closing file
+    out_file.close()
+    f.close()
+
+    # Printing results
+    print("Processed: {}, Lines: {}, Output: {}".format(json_file, line_count, output_file))
+
+
+def parse_tip():
+    # Specifying file names
+    json_file = "yelp_tip.JSON"
+    output_file = "tip.txt"
+
+    # Opening JSON file
+    with open(json_file, 'r') as f:
+        out_file = open(output_file, 'w')
+        line = f.readline()
+        line_count = 0
+
+        # Reading and extracting data from each JSON object
+        while line:
+            data = json.loads(line)
+            out_file.write(data["business_id"] + "\t")
+            out_file.write(data["date"] + "\t")
+            out_file.write(str(data["likes"]) + "\t")
+            out_file.write(data["text"] + "\t")
+            out_file.write(data["user_id"] + "\t")
+            out_file.write('\n')
+
+            line = f.readline()
+            line_count += 1
+
+    # Closing file
+    out_file.close()
+    f.close()
+
+    # Printing results
+    print("Processed: {}, Lines: {}, Output: {}".format(json_file, line_count, output_file))
+
+
+def parse_user():
+    # Specifying file names
+    json_file = "yelp_user.JSON"
+    output_file = "user.txt"
+
+    # Opening JSON file
+    with open(json_file, 'r') as f:
+        out_file = open(output_file, 'w')
+        line = f.readline()
+        line_count = 0
+
+        # Reading and extracting data from each JSON object
+        while line:
+            data = json.loads(line)
+            out_file.write(str(data["average_stars"]) + "\t")
+            out_file.write(str(data["cool"]) + "\t")
+            out_file.write(str(data["fans"]) + "\t")
+            out_file.write(str(data["friends"]) + "\t")  # value in KVP is an array, may need to process differently
+            out_file.write(str(data["funny"]) + "\t")
+            out_file.write(data["name"] + "\t")
+            out_file.write(str(data["tipcount"]) + "\t")
+            out_file.write(str(data["useful"]) + "\t")
+            out_file.write(data["user_id"] + "\t")
+            out_file.write(data["yelping_since"] + "\t")
+
+            out_file.write('\n')
+
+            line = f.readline()
+            line_count += 1
+
+    # Closing file
+    out_file.close()
+    f.close()
+
+    # Printing results
+    print("Processed: {}, Lines: {}, Output: {}".format(json_file, line_count, output_file))
+
+
+if __name__ == "__main__":
+    main()
+
+
+
+________________________________________________________________________________________________________________
+||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+________________________________________________________________________________________________________________
+
+
+
+
+
+
+
+
+________________________________________________________________________________________________________________
+||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+________________________________________________________________________________________________________________
+
+
+
+
+
+
+
+________________________________________________________________________________________________________________
+||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+________________________________________________________________________________________________________________
+
+
+
+
+
+
+
+________________________________________________________________________________________________________________
+||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+________________________________________________________________________________________________________________
+
+
+
+
+
+
+
+
+
+
+________________________________________________________________________________________________________________
+||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+________________________________________________________________________________________________________________
+
+
+
+
+
+
+
+
+
+
+
+________________________________________________________________________________________________________________
+||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+________________________________________________________________________________________________________________
+
+
